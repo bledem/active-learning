@@ -130,6 +130,11 @@ def entropy_score(prob_dist):
     normalized_entropy = raw_entropy / math.log2(len(prob_dist))
     return normalized_entropy.item()
 
+def random_score():
+    rands = np.random.uniform(0, 1)
+    return rands
+
+
 def rank_preds(list_preds, sampling_type='least'):
     uncertainty_scores = []
     for pred_array in list_preds:
@@ -143,7 +148,7 @@ def rank_preds(list_preds, sampling_type='least'):
         elif sampling_type=='entropy':
             ranked_preds = entropy_score(pred_array) 
         elif sampling_type=='random':
-            ranked_preds = 0.5 
+            ranked_preds = random_score()
         uncertainty_scores.append(ranked_preds)
     return uncertainty_scores
 
@@ -210,7 +215,7 @@ def run_experiment(lit_model, data, list_sampling_technique, n_samples, save_dir
 
     unseen_range = np.arange(break_idx, len(data.data_train))
     # to make the prediction faster
-    smaller_range = np.random.choice(unseen_range, 40000, replace=False)
+    smaller_range = np.random.choice(unseen_range, 30000, replace=False)
     data.data_train = Subset(data.data_train, smaller_range)
     
     # 2 - run the model on all samples
@@ -251,7 +256,7 @@ def run_experiment(lit_model, data, list_sampling_technique, n_samples, save_dir
             topk_data_s, topk_label_s, _ = sample(uncertainty_scores, list_labels, data, add_rand, rev=True)
             x_train_rand = np.array(topk_data_s[0]).transpose(1,2,0)
             y_train_rand = np.array(topk_label_s)
-            assert len(x_train_rand) > len(x_train_sampled)
+            # assert len(x_train_rand) > len(x_train_sampled)
             x_train = np.vstack([x_train_org, x_train_sampled, x_train_rand])
             y_train = np.vstack([y_train_org, y_train_sampled, y_train_rand])
             save_dataset_path = os.path.join(save_dir_technique, 'rand_merged_0.25_plus_uncertain_dataset.h5')
@@ -280,7 +285,7 @@ def main():
     ```
     """
     n_samples = 1000
-    add_random = int(n_samples*1.25)
+    add_random = int(n_samples)
     sampling_technique_list = ['ratio', 'margin', 'least', 'entropy', 'random']
 
     pj_dir = Path(os.path.dirname(__file__))

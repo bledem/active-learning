@@ -14,7 +14,7 @@ from text_recognizer.data.base_data_module import  BaseDataModule
 PROCESSED_DATA_DIRNAME = BaseDataModule.data_dirname() / "processed" / "emnist"
 
 SAMPLE_DATA_DIR = Path("/home/bettyld/PJ/Documents/active-learning/sampled/3ffq58ne/checkpoints/epoch=004-val_loss=0.597-val_cer=0.000")
-technique = "entropy"
+technique = "random"
 sampled_dataset =  SAMPLE_DATA_DIR / technique / 'rand_merged_0.25_plus_uncertain_dataset.h5' 
 # sampled_dataset =  SAMPLE_DATA_DIR / technique / 'uncertain_dataset.h5'
 org_dataset = PROCESSED_DATA_DIRNAME / "byclass.h5"
