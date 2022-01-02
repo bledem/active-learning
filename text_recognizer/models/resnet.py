@@ -5,7 +5,7 @@ from torchvision.models import resnet34, resnet18, resnet101
 from torch import nn
 import torch
 
-IMAGE_SIZE = 28
+IMAGE_SIZE = 32 #28
 
 class Resnet18(nn.Module):
     def __init__(self, data_config: Dict[str, Any], args: argparse.Namespace = None) -> None:

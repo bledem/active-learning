@@ -81,6 +81,7 @@ class EMNIST(BaseDataModule):
                     y_val = f["y_val"][:].squeeze().astype(int)
                 else:
                     x_val, y_val = None, None
+            # self.xtrainval (array) (325266, 28, 28), self.y_trainval (array) (325266,)
             data_trainval = BaseDataset(self.x_trainval, self.y_trainval, transform=self.transform)
             # if the dataset has been enriched from sampling, we keep same val data
             if  x_val is not None:
@@ -100,7 +101,7 @@ class EMNIST(BaseDataModule):
                 self.x_test = f["x_test"][:]
                 self.y_test = f["y_test"][:].squeeze().astype(int)
             self.data_test = BaseDataset(self.x_test, self.y_test, transform=self.transform)
-
+        
     def __repr__(self):
         basic = f"EMNIST Dataset\nNum classes: {len(self.mapping)}\nMapping: {self.mapping}\nDims: {self.dims}\n"
         if self.data_train is None and self.data_val is None and self.data_test is None:

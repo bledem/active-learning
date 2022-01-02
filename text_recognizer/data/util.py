@@ -1,7 +1,8 @@
 """Base Dataset class."""
 from typing import Any, Callable, Dict, Sequence, Tuple, Union
 import torch
-
+import numpy as np
+from PIL import Image
 
 SequenceOrTensor = Union[Sequence, torch.Tensor]
 
@@ -50,7 +51,7 @@ class BaseDataset(torch.utils.data.Dataset):
         Parameters
         ----------
         index
-
+transposed_data
         Returns
         -------
         (datum, target)
@@ -58,8 +59,11 @@ class BaseDataset(torch.utils.data.Dataset):
         datum, target = self.data[index], self.targets[index]
 
         if self.transform is not None:
-            datum = self.transform(datum)
-
+            # more than one channel img, datum is shape (batch_size, chn, width, height)
+            if len(datum.shape)>3:
+                datum = np.array([self.transform(d) for d in datum])
+            else:
+                datum = self.transform(datum)
         if self.target_transform is not None:
             target = self.target_transform(target)
 

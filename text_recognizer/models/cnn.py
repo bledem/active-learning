@@ -8,7 +8,7 @@ import torch.nn.functional as F
 
 CONV_DIM = 64
 FC_DIM = 128
-IMAGE_SIZE = 28
+IMAGE_SIZE = 32 #32 #28 #32 #28
 
 
 class ConvBlock(nn.Module):

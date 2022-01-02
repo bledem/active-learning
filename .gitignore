@@ -6,3 +6,4 @@ sampled
 training
 wandb
 .vscode
+*__pycache__*

@@ -5,6 +5,7 @@ from .mnist import MNIST
 # Hide lines below until Lab 2
 from .emnist import EMNIST
 from .emnist_lines import EMNISTLines
+from .cifar10 import CIFAR10DataModule
 
 # Hide lines above until Lab 2
 
